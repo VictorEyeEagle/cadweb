@@ -1,0 +1,113 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+}
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #343a40;
+    padding-top: 20px;
+    transition: all 0.3s;
+}
+.sidebar.active {
+    width: 80px;
+}
+.sidebar .nav-link {
+    color: #c2c7d0;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+.sidebar .nav-link .fas {
+    margin-right: 10px;
+}
+.sidebar.active .nav-link .fas {
+    margin-right: 0;
+}
+.sidebar.active .nav-link span {
+    display: none;
+}
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+.content.active {
+    margin-left: 80px;
+}
+.navbar {
+    background-color: #3c8dbc;
+    padding: 10px;
+}
+.navbar .navbar-brand {
+    color: #fff;
+    font-weight: bold;
+}
+.navbar .nav-item .nav-link {
+    color: #fff;
+}
+
+
+
+.card-custom {
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.card-header-custom {
+    background-color: #3c8dbc;
+    color: #fff;
+    padding: 10px 5px 5px 15px; 
+}
+.card-body-custom {
+    padding: 20px;
+}
+.submenu {
+    padding-left: 30px;
+    display: none;
+}
+.submenu .nav-link {
+    font-size: 14px;
+}
+.sidebar .nav-item.open .submenu {
+    display: block;
+}
+
+.container-fluid.mt-4 .row {
+    margin-bottom: 1rem; /* Ajuste o valor conforme necessário */
+}
+
+.barrabotoes {
+    margin-bottom: 0.5rem; /* Ajuste o valor conforme necessário */
+    padding: 5px;
+}
+
+h5{
+    margin: 5px;
+
+}
+
+
+.errorlist {
+    list-style-type: none; /* Remove os pontinhos */
+
+ 
+}
+
+.canvas {
+        display: block;
+        margin: 20px auto; /* Centraliza horizontalmente e adiciona margem superior */
+        border:1px solid #4e4c4cfa;
+        border-radius: 10px;
+        padding: 10px;
+}
+
+.fieldset {
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Borda clarinha */
+    font-size: 1rem;
+  }
