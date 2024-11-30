@@ -47,12 +47,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.Messagit remote add origin https://github.com/VictorEyeEagle/cadweb.git
-git branch -M main
-git push -u origin maingeMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
 
 ROOT_URLCONF = 'pweb.urls'
 
