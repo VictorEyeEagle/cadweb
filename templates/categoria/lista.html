@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %}
+
+Listagem de Categoria
+
+{% endblock titulo_conteudo %}
+
+{% block conteudo %}
+
+<button type="button" class="btn btn-primary" onclick="location.href='{% url 'form_categoria' %}'">Novo Produto</button>
+<br><br>
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Ordem</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for categoria in lista %}
+        <tr>
+            <td>{{categoria.id}}</td>
+            <td>{{categoria.nome}}</td>
+            <td>{{categoria.ordem}}</td>
+            <td>
+                <button type="button" class="btn btn-info">Detalhes</button>
+                <!-- <button type="button" class="btn btn-warning">Editar</button> -->
+                <button type="button" class="btn btn-warning"
+                    onclick="location.href='{% url 'editar_categoria' pk=categoria.id %}'">Editar</button>
+                <button type="button" class="btn btn-danger">Excluir</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock conteudo %}

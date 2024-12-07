@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %} Formulário do Produto: {% endblock titulo_conteudo %}
+
+{% block conteudo %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'lista' %}'">Voltar</button>
+</form>
+
+{% endblock %}
