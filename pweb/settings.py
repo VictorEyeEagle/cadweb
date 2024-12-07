@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'pweb.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        "postgres://neondb_owner:rJ14ZDpjvFxC@ep-bold-waterfall-a4galm1z-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require",
+        conn_max_age=600,
+    )
 }
 
 
