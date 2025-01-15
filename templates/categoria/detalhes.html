@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{%block titulo_conteudo %} Detalhes do Produto: {% endblock %}
+{%block titulo_conteudo %} Detalhes da Categoria: {% endblock %}
 
-{% block conteudo %}
+{% block conteudo %} 
 
-<label for="id_categoria">ID:</label>
-<span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.id }}</span>
+    <label for="id_categoria">ID:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.id }}</span>
 
-<label for="id_nome">Nome:</label>
-<span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.nome }}</span>
+    <label for="id_nome">Nome:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.nome }}</span>
 
-<label for="id_ordem">Ordem:</label>
-<span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.ordem }}</span>
+    <label for="id_ordem">Ordem:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ categoria.ordem }}</span>
 
-<button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'lista' %}'">Voltar</button>
+    <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'lista' %}'">Voltar</button>
 
 {% endblock %}

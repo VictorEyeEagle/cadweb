@@ -2,51 +2,47 @@
 
 {% block titulo_conteudo %}
 
-Listagem de Categoria
+    Listagem de Categorias
 
 {% endblock titulo_conteudo %}
 
 {% block conteudo %}
-<div class="barrabotoes">
-    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{% url 'form_categoria' %}'">Novo
-        Categoria</button>
-    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{% url 'lista' %}'">Recarregar</button>
-</div>
-<table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Ordem</th>
-            <th scope="col">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for categoria in lista %}
-        <tr>
-            <td>{{categoria.id}}</td>
-            <td>{{categoria.nome}}</td>
-            <td>{{categoria.ordem}}</td>
-            <td>
-                <button type="button" class="btn btn-info"
-                    onclick="location.href='{% url 'detalhe_categoria' categoria.id%}'">Detalhes</button>
-                <button type="button" class="btn btn-warning"
-                    onclick="location.href='{% url 'editar_categoria' categoria.id %}'">Alterar</button>
-                <button type="button" class="btn btn-danger"
-                    onclick="confirmClose('{% url 'remover_categoria' categoria.id %}')">Excluir</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="barrabotoes">
+        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{% url 'form_categoria' %}'">Novo Categoria</button> 
+        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{% url 'lista' %}'">Recarregar</button> 
+        </div>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Ordem</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in lista %}
+            <tr>
+                <td>{{categoria.id}}</td>
+                <td>{{categoria.nome}}</td>
+                <td>{{categoria.ordem}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" onclick="location.href='{% url 'detalhe_categoria' categoria.id%}'">Detalhes</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='{% url 'editar_categoria' categoria.id %}'">Alterar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmClose('{% url 'remover_categoria' categoria.id %}')">Excluir</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<script>
-    function confirmClose(url) {
-        const confirmar = confirm("Deseja realmente excluir a categoria?");
-        if (confirmar) {
-            window.location.href = url;
+    <script> 
+        function confirmClose(url) {
+            const confirmar = confirm("Confirme para excluir a categoria selecionada?");
+            if (confirmar) {
+                window.location.href = url; 
+            }
         }
-    }
-</script>
-
+    </script>
+    
 {% endblock conteudo %}

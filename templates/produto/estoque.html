@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block titulo_conteudo %} Ajuste de Estoque {% endblock titulo_conteudo%}
+
+{% block conteudo %} 
+<p>
+    <label for="id_produto"> Produto:</label>
+    <span class="form-control"> {{form.instance.produto.nome}}</span>
+</p>
+<form method="post">
+    {% csrf_token %}    
+    {{ form.as_p}}
+
+    <button class="btn btn-primary" type="submit"> Salvar </button>
+    <button class="btn btn-secondary" type="submit" onclick="location.href='{% url 'listaProduto' %}'"> Voltar </button>
+
+</form>
+
+{% endblock conteudo %}
