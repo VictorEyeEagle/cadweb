@@ -4,7 +4,7 @@
 
 {% block conteudo %}
     <div class="barrabotoes">
-        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{% url 'form_produto' %}'">Novo Categoria</button> 
+        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{% url 'form_produto' %}'">Novo Produto</button> 
         <button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'listaProduto' %}'">Recarregar</button> 
         </div>
     <table class="table table-bordered table-hover">
@@ -23,12 +23,12 @@
             {% for produto in listaProduto %}
             <tr>
                 <td style="text-align: center; vertical-align: middle;">{{produto.id}}</td>
-                <td style="text-align: center; vertical-align: middle;"><img src="{{ produto.img_base64 }}" width="55px" height="50px"></td>
+                <td style="text-align: center; vertical-align: middle;"><img src="{{ produto.img_base64 }}" width="55px" height="auto"></td>
                 <td style="vertical-align: middle;">{{produto.nome}}</td>
                 <td style="text-align: center; vertical-align: middle;">{{produto.preco}}</td>
                 <td style="text-align: center; vertical-align: middle;">{{produto.categoria}}</td>
                 <td style="text-align: center; vertical-align: middle;">{{ produto.estoque.qtde }}</td>
-                <td >
+                <td style="vertical-align: middle;">
                     <button type="button" class="btn btn-info" onclick="location.href='{% url 'detalhe_produto' produto.id%}'">Detalhes</button>
                     <button type="button" class="btn btn-success" onclick="location.href='{% url 'ajustar_estoque' produto.id%}'">Estoque</button>
                     <button type="button" class="btn btn-warning" onclick="location.href='{% url 'editar_produto' produto.id %}'">Alterar</button>

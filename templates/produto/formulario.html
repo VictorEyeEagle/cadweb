@@ -6,6 +6,17 @@
 <form method="post">
     {% csrf_token %}    
     {{ form.as_p }}
+
+    <p>
+        <label for="id_categoria_nome">Categoria:</label>
+        <!-- autocomplete -->
+        <input type="text" value="{{form.instance.categoria}}" 
+            class="form-control autocomplete" 
+            id="id_categoria_nome" 
+            data-url="{% url 'buscar_dados' 'home.Categoria' %}" 
+            data-hidden="#id_categoria" >
+    </p>
+    
     
     <fieldset class="fieldset">
         <label for="imagem">Imagem:</label>

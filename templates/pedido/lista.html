@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %} Lista de Pedidos {% endblock titulo_conteudo %}
+
+{% block conteudo %}
+
+<div class="barrabotoes">
+  <button onClick="location='{% url 'listaPedido' %}'" type="button" class="btn btn-primary btn-sm">Recarregar</button>
+</div>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th style="text-align: center; vertical-align: middle;">ID</th>
+      <th style="text-align: center; vertical-align: middle;">Cliente</th>
+      <th style="text-align: center; vertical-align: middle;">Data</th>
+      <th style="text-align: center; vertical-align: middle;">Situação</th>
+      <th style="text-align: center; vertical-align: middle;">Produtos</th>
+      <th style="text-align: center; vertical-align: middle;">Total (R$)</th>
+
+      <th style="vertical-align: middle;">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pedido in listaPedido %}
+    <tr>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.id }}</td>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.cliente.nome }}</td>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.data_pedidof}}</td>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.get_status_display }}</td>
+      <td style="text-align: center; vertical-align: middle;">?</td>
+      <td style="text-align: center; vertical-align: middle;">?</td>
+      <td>
+        <button type="button" class="btn btn-info"
+          onclick="location.href='{% url 'detalhe_pedido' pedido.id%}'">Detalhes</button>
+        <button type="button" class="btn btn-warning"
+          onclick="location.href='{% url 'editar_pedido' pedido.id%}'">Editar</button>
+        <button type="button" class="btn btn-danger"
+          onclick="confirmClose('{% url 'remover_pedido' pedido.id%}')">Remover</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  function confirmClose(url) {
+    const confirmar = confirm("Tem certeza que deseja remover este registro?");
+    if (confirmar) {
+      window.location.href = url;
+    }
+  }
+</script>
+
+
+
+{% endblock conteudo %}

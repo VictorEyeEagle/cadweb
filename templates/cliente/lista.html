@@ -14,23 +14,23 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">C.P.F</th>
-                <th scope="col">Data de Nascimento</th>
-                <th scope="col">Ações</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">ID</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">Nome</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">C.P.F</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">Data de Nascimento</th>
+                <th scope="col" style="vertical-align: middle;">Ações</th>
             </tr>
         </thead>
         <tbody>
             {% for cliente in listaCliente %}
             <tr>
-                <td>{{cliente.id}}</td>
-                <td>{{cliente.nome}}</td>
-                <td>{{cliente.cpf}}</td>
-                <td>{{cliente.datanascimento}}</td>
+                <td style="text-align: center; vertical-align: middle;">{{cliente.id}}</td>
+                <td style="vertical-align: middle;">{{cliente.nome}}</td>
+                <td style="text-align: center; vertical-align: middle;">{{cliente.cpf}}</td>
+                <td style="text-align: center; vertical-align: middle;">{{cliente.datanascimento}}</td>
                 {% comment %} <!-- <button type="button" class="btn btn-info" onclick="location.href='{% url 'detalhe_categoria' categoria.id%}'">Detalhes</button> --> {% endcomment %}
-                <td>
-                    <button type="button" class="btn btn-success">Novo Pedido</button>
+                <td style="vertical-align: middle;">
+                    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'novo_pedido' cliente.id%}'">Novo Pedido</button>
                     <button type="button" class="btn btn-info" onclick="location.href='{% url 'detalhe_cliente' cliente.id%}'">Detalhes</button>
                     <button type="button" class="btn btn-warning" onclick="location.href='{% url 'editar_cliente' cliente.id%}'">Editar</button>
                     <button type="button" class="btn btn-danger" onclick="confirmClose('{% url 'remover_cliente' cliente.id%}')">Remover</button>

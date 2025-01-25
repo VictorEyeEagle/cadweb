@@ -46,6 +46,46 @@ class Estoque(models.Model):
         return f'{self.produto.nome} - Quantidade: {self.qtde}'
 
 
+class Pedido(models.Model):
+
+    NOVO = 1
+    EM_ANDAMENTO = 2
+    CONCLUIDO = 3
+    CANCELADO = 4
+
+    STATUS_CHOICES = [
+        (NOVO, 'Novo'),
+        (EM_ANDAMENTO, 'Em Andamento'),
+        (CONCLUIDO, 'Concluído'),
+        (CANCELADO, 'Cancelado'),
+    ]
+
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    produtos = models.ManyToManyField(Produto, through='ItemPedido')
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=NOVO)
+
+    def __str__(self):
+            return f"Pedido {self.id} - Cliente: {self.cliente.nome} - Status: {self.get_status_display()}"
+    
+    @property
+    def data_pedidof(self):
+        if self.data_pedido:
+            return self.data_pedido.strftime('%d/%m/%Y %H:%M')
+        return None
+    
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)    
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)  
+    qtde = models.PositiveIntegerField()
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.produto.nome} (Qtde: {self.qtde}) - Preço Unitário: {self.preco}"
+
+
+# Modelo de validação de campos
 
 # class MeuFormulario(forms.Form):
 #     nome_completo = forms.CharField(validators=[validar_nome()])

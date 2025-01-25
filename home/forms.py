@@ -74,7 +74,8 @@ class ProdutoForm(forms.ModelForm):
         model = Produto
         fields = ['nome', 'preco', 'categoria','img_base64']
         widgets = {
-            'categoria': forms.Select(attrs={'class': 'form-control'}),
+          #   'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'categoria': forms.HiddenInput(),
             'nome':forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
             'img_base64': forms.HiddenInput(), 
             'preco':forms.TextInput(attrs={
@@ -104,8 +105,15 @@ class EstoqueForm(forms.ModelForm):
                'produto': forms.HiddenInput(),
                'qtde': forms.TextInput(attrs={'class': 'inteiro form-control',}),
           }  
-
    
+
+class PedidoForm(forms.ModelForm):
+     class Meta:
+          model = Pedido
+          fields = ['cliente']
+          widgets = {
+               'cliente': forms.HiddenInput(),
+          }
 
      
      # def clean(self):

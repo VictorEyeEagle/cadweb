@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block titulo_conteudo %} Detalhes do Produto: {% endblock %}
+{%block titulo_conteudo %} Detalhes do Produto: {% endblock %}
 
 {% block conteudo %} 
 
@@ -15,11 +15,13 @@
 
     <label for="id_ordem">Categoria:</label>
     <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.categoria }}</span>
+
+    <label for="id_ordem">Estoque (Und):</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.estoque.qtde }}</span>
     
     <label for="id_ordem">Imagem:</label>
     <span class="form-control" style="margin-bottom: 0.6rem;"><img src="{{ produto.img_base64 }}" width="200" height="200"></span>
 
-    <label for="id_estoque">Quantidade em Estoque:</label>
-    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.estoque }}</span>
-
+    <button class="btn btn-secondary" type="button" onclick="location.href='{% url 'listaProduto' %}'"> Voltar </button>
+    
 {% endblock %}
