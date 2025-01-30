@@ -4,18 +4,61 @@
 
 {% block conteudo %} 
 
-    <label for="id_categoria">ID:</label>
-    <span class="form-control" style="margin-bottom: 0.6rem;">{{ pedido.id }}</span>
+    <p><strong>Cliente:</strong> {{ pedido.cliente.nome }}</p>
+    <p><strong>Data do Pedido:</strong> {{ pedido.data_pedidof }}</p>
+    <p><strong>Status:</strong> {{ pedido.status }}</p>
 
-    <label for="id_nome">Cliente:</label>
-    <span class="form-control" style="margin-bottom: 0.6rem;">{{ pedido.cliente.nome }}</span>
+    <hr>
+
+    <h5>Adicionar Produto</h5>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+        <label for="id_produto_nome">Produto:</label>    
+        <input type="text" class="form-control autocomplete" 
+                id="id_produto_nome" 
+                data-url="{% url 'buscar_dados' 'home.Produto' %}" 
+                value="{{item_pedido.produto.nome}}" 
+                data-hidden="#id_produto" >
+        </p>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-sm">Salvar Produto</button>
+        <button type="button" onclick="location=''" class="btn btn-primary btn-sm">Registrar Pagamento</button>
+    </form>
+
+    <hr>
+
+    <h5>Itens do Pedido</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário (R$)</th>
+                <th>Total (R$)</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in pedido.itempedido_set.all %}
+            <tr>
+                <td>{{ item.produto.nome }}</td>
+                <td>{{ item.qtde }}</td>
+                <td>{{ item.preco }}</td>
+                <td>?</td>
+                <td>
+                  <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                  <a href="#" class="btn btn-danger btn-sm" 
+                  onclick="return confirm('Tem certeza que deseja remover este item?');">Remover</a>
+                </td>         
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
-    <label for="id_ordem">Data:</label>
-    <span class="form-control" style="margin-bottom: 0.6rem;">{{ pedido.data_pedidof }}</span>
 
-    <label for="id_ordem">Status:</label>
-    <span class="form-control" style="margin-bottom: 0.6rem;">{{ pedido.status }}</span>
 
     <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'listaPedido' %}'">Voltar</button>
 
-{% endblock %}
+{% endblock conteudo %}
+

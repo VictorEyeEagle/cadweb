@@ -23,7 +23,7 @@ def form_categoria(request):
             salvando = form.save()
             lista=[]
             lista.append(salvando)
-            messages.success(request, 'Operação realizda com Sucesso.')
+            messages.success(request, 'Operação realizada com Sucesso.')
             return render(request, 'categoria/lista.html', {'lista':lista,})
         
     else: 
@@ -57,7 +57,7 @@ def remover_categoria(request, id):
     try:
         categoria = Categoria.objects.get(pk=id)
         categoria.delete()
-        messages.success(request, 'Exclusão realizda com Sucesso.')
+        messages.success(request, 'Exclusão realizada com Sucesso.')
     except:
         messages.error(request, 'Registro não encontrado')
         return redirect('lista')
@@ -89,7 +89,7 @@ def form_cliente(request):
             salvando = form.save()
             listaCliente=[]
             listaCliente.append(salvando)
-            messages.success(request, 'Operação realizda com Sucesso.')
+            messages.success(request, 'Operação realizada com Sucesso.')
             return render(request, 'cliente/lista.html', {'listaCliente':listaCliente,})
         
     else: 
@@ -123,7 +123,7 @@ def remover_cliente(request, id):
     try:
         cliente = Cliente.objects.get(pk=id)
         cliente.delete()
-        messages.success(request, 'Exclusão realizda com Sucesso.')
+        messages.success(request, 'Exclusão realizada com Sucesso.')
     except:
         messages.error(request, 'Registro não encontrado')
         return redirect('listaCliente')
@@ -154,7 +154,7 @@ def form_produto(request):
             salvando = form.save()
             listaProduto=[]
             listaProduto.append(salvando)
-            messages.success(request, 'Operação realizda com Sucesso.')
+            messages.success(request, 'Operação realizada com Sucesso.')
             return render(request, 'produto/lista.html', {'listaProduto':listaProduto,})
         
     else: 
@@ -188,7 +188,7 @@ def remover_produto(request, id):
     try:
         produto = Produto.objects.get(pk=id)
         produto.delete()
-        messages.success(request, 'Exclusão realizda com Sucesso.')
+        messages.success(request, 'Exclusão realizada com Sucesso.')
     except:
         messages.error(request, 'Registro não encontrado')
         return redirect('listaProduto')
@@ -222,6 +222,12 @@ def ajustar_estoque(request, id):
     return render(request, 'produto/estoque.html', {'form': form,})
 
 
+# Teste 
+def teste1(request):
+    return render(request, 'testes/teste1.html')
+
+def teste2(request):
+    return render(request, 'testes/teste2.html')
 
 def buscar_dados(request, app_modelo):
     termo = request.GET.get('q', '') # pega o termo digitado
@@ -240,6 +246,8 @@ def buscar_dados(request, app_modelo):
     dados = [{'id': obj.id, 'nome': obj.nome} for obj in resultados]
     return JsonResponse(dados, safe=False)
 
+def teste3(request):
+    return render(request, 'testes/teste3.html')
 
 
 def pedido(request):
@@ -263,14 +271,25 @@ def novo_pedido(request,id):
             pedido = form.save()
             return redirect('listaPedido')
         
-def detalhe_pedido(request, id):
+def detalhes_pedido(request, id):
     try:
-        pedido = get_object_or_404(Pedido, pk=id)
-    except:
+        pedido = Pedido.objects.get(pk=id)
+    except Pedido.DoesNotExist:
         messages.error(request, 'Registro não encontrado')
-        return redirect('listaPedido')
+        return redirect('pedido')
+    
+    if request.method == 'GET':
+        itemPedido = ItemPedido(pedido=pedido)
+        form = ItemPedidoForm(instance=itemPedido)
+    else:
+        form = ItemPedidoForm(request.POST)
 
-    return render(request, 'pedido/detalhes.html', {'pedido':pedido,})
+    contexto = {
+        'pedido': pedido,
+        'form': form,
+    }
+
+    return render(request, 'pedido/detalhes.html', contexto)
 
 def editar_pedido(request, id):
     try:
@@ -297,9 +316,10 @@ def remover_pedido(request, id):
     try:
         pedido = Pedido.objects.get(pk=id)
         pedido.delete()
-        messages.success(request, 'Exclusão realizda com Sucesso.')
+        messages.success(request, 'Exclusão realizada com Sucesso.')
     except:
         messages.error(request, 'Registro não encontrado')
         return redirect('listaPedido')
     
     return redirect('listaPedido')
+
