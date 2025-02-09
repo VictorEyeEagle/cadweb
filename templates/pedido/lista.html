@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block titulo_conteudo %} Lista de Pedidos {% endblock titulo_conteudo %}
+{% block titulo_conteudo %} Listagem de Pedidos {% endblock titulo_conteudo %}
 
 {% block conteudo %}
 
@@ -29,13 +29,13 @@
       <td style="text-align: center; vertical-align: middle;">{{ pedido.cliente.nome }}</td>
       <td style="text-align: center; vertical-align: middle;">{{ pedido.data_pedidof }}</td>
       <td style="text-align: center; vertical-align: middle;">{{ pedido.get_status_display }}</td>
-      <td style="text-align: center; vertical-align: middle;">?</td>
-      <td style="text-align: center; vertical-align: middle;">?</td>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.qtdeItens }}</td>
+      <td style="text-align: center; vertical-align: middle;">{{ pedido.total }}</td>
       <td>
         <button type="button" class="btn btn-info"
           onclick="location.href='{% url 'detalhes_pedido' pedido.id%}'">Detalhes</button>
-        <button type="button" class="btn btn-warning"
-          onclick="location.href='{% url 'editar_pedido' pedido.id%}'">Editar</button>
+        <!-- <button type="button" class="btn btn-warning"
+          onclick="location.href='{% url 'editar_pedido' pedido.id%}'">Editar</button> -->
         <button type="button" class="btn btn-danger"
           onclick="confirmClose('{% url 'remover_pedido' pedido.id%}')">Remover</button>
       </td>

@@ -2,6 +2,11 @@ import locale
 from django.db import models
 # from .forms import *
 
+# Modelo de validação de campos
+
+# class MeuFormulario(forms.Form):
+#     nome_completo = forms.CharField(validators=[validar_nome()])
+
 class Categoria(models.Model): 
     nome = models.CharField(max_length = 100)
     ordem = models.IntegerField()
@@ -39,7 +44,7 @@ class Produto(models.Model):
         return estoque_item
     
 class Estoque(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)  
     qtde = models.IntegerField()
 
     def __str__(self):
@@ -74,7 +79,28 @@ class Pedido(models.Model):
             return self.data_pedido.strftime('%d/%m/%Y %H:%M')
         return None
 
+    @property 
+    def total(self):
+        total = sum(item.qtde * item.preco for item in self.itempedido_set.all())
+        return total
+    
+    @property
+    def qtdeItens(self):
+        return self.itempedido_set.count()
+    
+    @property
+    def pagamentos(self):
+        return Pagamento.objects.filter(pedido=self)
 
+    @property
+    def total_pago(self):
+        total = sum(pagamento.valor for pagamento in self.pagamentos.all())
+        return total
+    
+    @property
+    def debito(self):
+        valor_debito = self.total - self.total_pago 
+        return valor_debito
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)    
@@ -84,9 +110,43 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.produto.nome} (Qtde: {self.qtde}) - Preço Unitário: {self.preco}"
+    
+    @property
+    def calculoTotal(self):
+        total = self.qtde * self.preco
+        return total
+
+    @property
+    def total(self):
+        total = sum(item.qtde * item.preco for item in self.itempedido_set.all())
+        return total
 
 
-# Modelo de validação de campos
+class Pagamento(models.Model):
+    DINHEIRO = 1
+    CREDITO = 2
+    DEBITO = 3
+    PIX = 4
+    TICKET = 5
+    OUTRA = 6
 
-# class MeuFormulario(forms.Form):
-#     nome_completo = forms.CharField(validators=[validar_nome()])
+    FORMA_CHOICES = [
+        (DINHEIRO, 'Dinheiro'),
+        (CREDITO, 'Credito'),
+        (DEBITO, 'Debito'),
+        (PIX, 'Pix'),
+        (TICKET, 'Ticket'),
+        (OUTRA, 'Outra'),
+    ]
+
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE) 
+    forma = models.IntegerField(choices=FORMA_CHOICES)
+    valor = models.DecimalField(max_digits = 10, decimal_places=2, blank = False )
+    data_pgto = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def data_pgtof(self):
+        """Retorna a data formatada: DD/MM/AAAA HH:MM"""
+        if self.data_pgto:
+            return self.data_pgto.strftime('%d/%m/%Y %H:%M')
+        return None

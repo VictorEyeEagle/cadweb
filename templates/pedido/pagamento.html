@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %} Registro de Pagamento {% endblock titulo_conteudo%} 
+
+
+{% block conteudo %} 
+
+
+    <p>
+        <label for="id_cliene">Pedido:</label>
+        <span class="form-control" >{{form.instance.pedido}}</span>
+        
+    </p>
+    <p>
+        <label for="id_data">Data:</label>
+        <span class="form-control" >{{form.instance.pedido.data_pedidof}}</span>
+    </p>
+
+
+    <form method="post">
+        {% csrf_token %}    
+        {{ form.as_p }}
+        <button class="btn btn-primary btn-sm" type="submit">Salvar Pagamento</button>
+        <button type="button" onclick="location='{% url 'detalhes_pedido' form.instance.pedido.id %}'" class="btn btn-secondary btn-sm">Voltar</button>
+
+    </form>
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+        <th>ID</th>
+        <th>Valor (R$)</th>
+        <th>Forma</th>
+        <th>Data</th>
+        <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for pagamento in form.instance.pedido.pagamentos %}
+        <tr>
+        <td>{{ pagamento.id }}</td>
+        <td>{{ pagamento.valor }}</td>
+        <td>{{ pagamento.get_forma_display }}</td>
+        <td>{{ pagamento.data_pgtof }}</td>
+
+
+        <td>
+            <a href="" class="btn btn-warning btn-sm">Editar</a>
+            <a onclick="confirmClose('{% url 'remover_pagamento' pagamento.id %}')" class="btn btn-danger btn-sm" 
+            >Excluir</a>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+
+    <hr>
+
+    <p><strong>Total de Pedidos: R$</strong> {{ pedido.total }}</p>
+    <p><strong>Total de Pago: R$</strong> {{ pedido.total_pago }}</p>
+    <p><strong>Débito: R$</strong> {{ pedido.debito }}</p>
+
+    
+{% endblock conteudo %}
+
+
+{% block javascript %}
+    <script> 
+        function confirmClose(url) {
+            const confirmar = confirm("Tem certeza que deseja remover este item?");
+            if (confirmar) {
+                window.location.href = url; 
+            }
+        }
+    </script>
+{% endblock javascript %}

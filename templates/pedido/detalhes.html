@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{%block titulo_conteudo %} Detalhes do Cliente: {% endblock %}
+{%block titulo_conteudo %} Detalhes do Pedido #{{pedido.id}} {% endblock %}
 
 {% block conteudo %} 
 
     <p><strong>Cliente:</strong> {{ pedido.cliente.nome }}</p>
     <p><strong>Data do Pedido:</strong> {{ pedido.data_pedidof }}</p>
-    <p><strong>Status:</strong> {{ pedido.status }}</p>
+    <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
 
     <hr>
 
@@ -23,7 +23,7 @@
         </p>
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary btn-sm">Salvar Produto</button>
-        <button type="button" onclick="location=''" class="btn btn-primary btn-sm">Registrar Pagamento</button>
+        <button type="button" onclick="location.href='{% url 'form_pagamento' pedido.id %}'" class="btn btn-primary btn-sm">Registrar Pagamento</button>
     </form>
 
     <hr>
@@ -32,33 +32,52 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Preço Unitário (R$)</th>
-                <th>Total (R$)</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">ID</th>
+                <th scope="col" style="text-align: center; vertical-align: middle;">#</th>
+                <th style="vertical-align: middle;">Produto</th>
+                <th style="text-align: center; vertical-align: middle;">Quantidade</th>
+                <th style="text-align: center; vertical-align: middle;">Preço Unitário (R$)</th>
+                <th style="text-align: center; vertical-align: middle;">Total (R$)</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             {% for item in pedido.itempedido_set.all %}
             <tr>
-                <td>{{ item.produto.nome }}</td>
-                <td>{{ item.qtde }}</td>
-                <td>{{ item.preco }}</td>
-                <td>?</td>
-                <td>
-                  <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                  <a href="#" class="btn btn-danger btn-sm" 
-                  onclick="return confirm('Tem certeza que deseja remover este item?');">Remover</a>
+                <td style="text-align: center; vertical-align: middle;">{{ item.produto.id }}</td>
+                <td style="text-align: center; vertical-align: middle;"><img src="{{ item.produto.img_base64 }}" width="55px" height="auto"></td>
+                <td style="vertical-align: middle;">{{ item.produto.nome }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ item.qtde }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ item.preco }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ item.calculoTotal }}</td>
+                <td style="vertical-align: middle;">
+                  <a onclick="location.href='{% url 'editar_item_pedido' item.id %}'" class="btn btn-warning btn-sm">Editar</a>
+                  <a onclick="confirmClose('{% url 'remover_item_pedido' item.id %}')" class="btn btn-danger btn-sm" >Remover</a>
                 </td>         
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <hr>
+
+    <p><strong>Total de Pedidos: R$</strong> {{ pedido.total }}</p>
+    <p><strong>Total de Pago: R$</strong> {{ pedido.total_pago }}</p>
+    <p><strong>Débito: R$</strong> {{ pedido.debito }}</p>
     
 
 
     <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'listaPedido' %}'">Voltar</button>
+
+
+    <script> 
+        function confirmClose(url) {
+            const confirmar = confirm("Tem certeza que deseja remover este item?");
+            if (confirmar) {
+                window.location.href = url; 
+            }
+        }
+    </script>
 
 {% endblock conteudo %}
 
