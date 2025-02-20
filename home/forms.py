@@ -130,8 +130,6 @@ class PedidoForm(forms.ModelForm):
                'cliente': forms.HiddenInput(),
           }
 
-
-
 class ItemPedidoForm(forms.ModelForm):
      class Meta:
           model = ItemPedido
@@ -145,8 +143,12 @@ class ItemPedidoForm(forms.ModelForm):
      
      def clean_qtde(self):
         qtde = self.cleaned_data.get('qtde')
+        produto = self.cleaned_data.get('produto')
+        estoque = produto.estoque.qtde
         if not isinstance(qtde, int) or qtde < 0:
-            raise ValidationError('A quantidade deve ser um número inteiro positivo.')
+          raise forms.ValidationError('A quantidade deve ser um número inteiro positivo.')
+        if qtde > estoque: 
+            raise forms.ValidationError('Quantidade em estoque insuficiente para o produto')
         return qtde
 
 class PagamentoForm(forms.ModelForm):

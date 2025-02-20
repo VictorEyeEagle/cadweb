@@ -113,7 +113,7 @@ class ItemPedido(models.Model):
     
     @property
     def calculoTotal(self):
-        total = self.qtde * self.preco
+        total = self.qtde * self.produto.preco
         return total
 
     @property

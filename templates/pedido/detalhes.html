@@ -48,7 +48,7 @@
                 <td style="text-align: center; vertical-align: middle;"><img src="{{ item.produto.img_base64 }}" width="55px" height="auto"></td>
                 <td style="vertical-align: middle;">{{ item.produto.nome }}</td>
                 <td style="text-align: center; vertical-align: middle;">{{ item.qtde }}</td>
-                <td style="text-align: center; vertical-align: middle;">{{ item.preco }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ item.produto.preco }}</td>
                 <td style="text-align: center; vertical-align: middle;">{{ item.calculoTotal }}</td>
                 <td style="vertical-align: middle;">
                   <a onclick="location.href='{% url 'editar_item_pedido' item.id %}'" class="btn btn-warning btn-sm">Editar</a>
@@ -58,6 +58,38 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <hr>
+
+    <h5>Pagamento(s)</h5>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th>ID</th>
+            <th>Valor (R$)</th>
+            <th>Forma</th>
+            <th>Data</th>
+            <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pagamento in form.instance.pedido.pagamentos %}
+            <tr>
+            <td>{{ pagamento.id }}</td>
+            <td>{{ pagamento.valor }}</td>
+            <td>{{ pagamento.get_forma_display }}</td>
+            <td>{{ pagamento.data_pgtof }}</td>
+    
+    
+            <td>
+                <a onclick="location.href='{% url 'editar_pagamento' pagamento.id %}'" class="btn btn-warning btn-sm">Editar</a>
+                <a onclick="confirmClose('{% url 'remover_pagamento' pagamento.id %}')" class="btn btn-danger btn-sm" 
+                >Excluir</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
 
     <hr>
 
