@@ -24,6 +24,7 @@
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary btn-sm">Salvar Produto</button>
         <button type="button" onclick="location.href='{% url 'form_pagamento' pedido.id %}'" class="btn btn-primary btn-sm">Registrar Pagamento</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="location.href='{% url 'nota_fiscal' pedido.id%}'">Nota Fiscal</button>
     </form>
 
     <hr>
@@ -42,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in pedido.itempedido_set.all %}
+            {% for item in pedido.itens.all %}
             <tr>
                 <td style="text-align: center; vertical-align: middle;">{{ item.produto.id }}</td>
                 <td style="text-align: center; vertical-align: middle;"><img src="{{ item.produto.img_base64 }}" width="55px" height="auto"></td>

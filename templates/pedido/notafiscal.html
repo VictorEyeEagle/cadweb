@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %} Nota Fiscal do Pedido #{{pedido.id}} {% endblock titulo_conteudo %}
+
+{% block conteudo %} 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Fiscal -- numero</title>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .bordered {
+            border: 2px solid #000;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .title_nf {
+            flex-direction: column;
+            text-align: center;
+        }
+        .bordered-border{
+            border: 2px solid black;
+            margin-top: 7px;
+
+        }
+        .info-key{
+            padding-top:10px;
+            padding-right:2px;
+            padding-left:7px;
+            padding-bottom:10px;
+        }
+        .info-destinario{
+            padding-right:2px;
+            padding-left:7px;
+
+            margin-top: 4px;
+            margin-bottom: -6px;
+        }
+        .info-table{
+            width: 99%;
+            margin: 5px;
+            justify-content: center;
+            border: 7px solid solid;
+
+        }
+        .info-table th{
+            border: 1px solid black
+        }
+        .bordered-info{
+            margin-top: 7px;
+            flex-direction: row;
+
+        }
+        .info-table-imposto{
+            border: none;
+            width: 100%;
+            margin-top:10px;
+            margin-bottom:-10px;
+            margin-left:2px;
+
+        }
+        .info-table-imposto td,th{
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .info-final{
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: -10px;
+        }
+        .button-pdf{
+            display: flex;
+            justify-content: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="bordered">
+            <div class="title_nf"><strong>DANFE - Documento Auxiliar da Nota Fiscal Eletrônica</strong></div>
+
+            <div class="bordered-border">
+                <div class="info-key"><strong>CHAVE DE ACESSO: </strong>{{pedido.chave_acesso}}</div>
+            </div>
+
+            <div class="bordered-border">
+                <div class="info-destinario">
+                    <p><strong>Destinatário:</strong> {{ pedido.cliente.nome }}</p>
+                    <p><strong>Data Nascimento:</strong> {{ pedido.cliente.datanascimento}}</p>
+                    <p><strong>CPF/CNPJ:</strong> {{pedido.cliente.cpf}} </p>
+                </div>
+            </div>
+
+            <div class="bordered-border">
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Código</th>
+                            <th style="text-align: center; vertical-align: middle;">Descrição</th>
+                            <th style="text-align: center; vertical-align: middle;">Qtd</th>
+                            <th style="text-align: center; vertical-align: middle;">Valor Unitário</th>
+                            <th style="text-align: center; vertical-align: middle;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens %}
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle;">{{ item.produto.id }}</td>
+                            <td>{{ item.produto.nome }}</td>
+                            <td style="text-align: center; vertical-align: middle;">{{ item.qtde }}</td>
+                            <td style="text-align: right; vertical-align: middle;">R$ {{ item.produto.preco }}</td>
+                            <td style="text-align: right; vertical-align: middle;">R$ {{ item.calculoTotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bordered-border">
+                <table class="info-table-imposto">
+                    <tbody>
+                        <tr>
+                            <td><p><strong>ICMS.........:</strong> R$ {{pedido.calculoICMS}}</p></td>
+                            <td style="text-align: right;"><p><strong>IPI...........:</strong> R$ {{pedido.calculoIPI}}</p></td>
+                        </tr>
+                        
+                        <tr>
+                            <td><p><strong>PIS..........:</strong> R$ {{pedido.calculoPIS}}</p></td>
+                            <td style="text-align: right;"><p><strong>COFINS...........:</strong> R$ {{pedido.calculoCONFINS}}</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bordered-border">
+                <div class="info-destinario">
+                    <p style="font-family: 'Courier New', Courier, monospace;"><strong>Total..........:</strong> R$ {{pedido.total}}</p>
+                    <p style="font-family: 'Courier New', Courier, monospace;"><strong>Impostos..:</strong> R$ {{pedido.total_impostos}}</p>
+                    <p style="font-family: 'Courier New', Courier, monospace;"><strong>Valor Final:</strong> R$ {{pedido.valor_final}}</p>
+                </div>
+            </div>
+            
+            <div class="info-final"><p><strong>Recebemos os produtos constantes nesta nota fiscal.</strong></p></div>
+        </div>
+    </div>
+
+        <div class="button-pdf">
+            <button onclick="gerarPDF()">Baixar Nota Fiscal em PDF</button>
+        </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+    
+            html2canvas(document.querySelector('.container')).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const doc = new jsPDF('p', 'mm', 'a4');
+    
+                doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+                doc.save('NotaFiscal.pdf');
+            });
+        }
+    </script>
+
+
+
+</body>
+</html>
+
+
+{% endblock conteudo %}

@@ -32,12 +32,10 @@
       <td style="text-align: center; vertical-align: middle;">{{ pedido.qtdeItens }}</td>
       <td style="text-align: center; vertical-align: middle;">{{ pedido.total }}</td>
       <td>
-        <button type="button" class="btn btn-info"
+        <button type="button" class="btn btn-primary"
           onclick="location.href='{% url 'detalhes_pedido' pedido.id%}'">Detalhes</button>
-        <!-- <button type="button" class="btn btn-warning"
-          onclick="location.href='{% url 'editar_pedido' pedido.id%}'">Editar</button> -->
-        <button type="button" class="btn btn-danger"
-          onclick="confirmClose('{% url 'remover_pedido' pedido.id%}')">Remover</button>
+        <button type="button" class="btn btn-info" onclick="location.href='{% url 'nota_fiscal' pedido.id%}'">Nota Fiscal</button>
+        <button type="button" class="btn btn-danger" onclick="confirmClose('{% url 'remover_pedido' pedido.id%}')">Remover</button>
       </td>
     </tr>
     {% endfor %}
