@@ -54,7 +54,6 @@ class Produto(models.Model):
 
     @property
     def estoque(self):
-        # Recupera ou cria o registro de estoque para este produto
         estoque_item, criado = Estoque.objects.get_or_create(produto=self, defaults={'qtde': 0})
         return estoque_item
 
